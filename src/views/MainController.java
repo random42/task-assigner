@@ -1,4 +1,4 @@
-package views;
+
 
 import controllers.CateringAppManager;
 import models.User;
@@ -20,6 +20,8 @@ public class MainController {
 
     @FXML
     public void initialize() {
-        userName.setText(CateringAppManager.userManager.getCurrentUser().toString());
+      String name = CateringAppManager.userManager.getCurrentUser().toString();
+      System.out.println(name);
+      userName.setText(name);
     }
 }

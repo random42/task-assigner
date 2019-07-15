@@ -42,6 +42,7 @@ public class DataManager {
 
       System.out.println("Connected to database");
       this.connection = conn;
+      loadData();
   }
 
   public void clearMaps() {
@@ -85,7 +86,7 @@ public class DataManager {
     try {
       st = this.connection.createStatement();
       ResultSet rs = st.executeQuery(query);
-      rs.first();
+      if (!rs.next()) return;
       while (!rs.isAfterLast()) {
         Workshift current = new Workshift();
         int id = rs.getInt("workshift");
@@ -107,12 +108,12 @@ public class DataManager {
   }
 
   public void loadAssignments() {
-    String query = "SELECT * FROM assignments a JOIN assignment_cooks ac"
+    String query = "SELECT * FROM assignments a JOIN assignment_cooks ac "
     + "ON a.id = ac.assignment";
     try {
       Statement st = this.connection.createStatement();
       ResultSet rs = st.executeQuery(query);
-      rs.first();
+      if (!rs.next()) return;
       while (!rs.isAfterLast()) {
         Assignment current = new Assignment();
         current.id = rs.getInt("id");
@@ -135,21 +136,24 @@ public class DataManager {
   }
 
   public void loadMenusRecipes() {
-    String query = "SELECT * FROM menus m JOIN menu_recipes mr ON"
+    String query = "SELECT * FROM menus m LEFT JOIN menu_recipes mr ON "
     + "m.id = mr.menu JOIN recipes r ON mr.recipe = r.id";
     try {
       Statement st = this.connection.createStatement();
       ResultSet rs = st.executeQuery(query);
+      if (!rs.next()) return;
       while (!rs.isAfterLast()) {
         Menu current = new Menu();
         current.id = rs.getInt("menu");
         current.title = rs.getString("title");
         this.menus.put(current.id, current);
         while (!rs.isAfterLast() && rs.getInt("menu") == current.id) {
-          Recipe r = new Recipe(rs.getString("name"));
-          r.id = rs.getInt("recipe");
-          current.recipes.add(r);
-          this.recipes.put(r.id, r);
+          if (rs.getInt("recipe") != 0) {
+            Recipe r = new Recipe(rs.getString("name"));
+            r.id = rs.getInt("recipe");
+            current.recipes.add(r);
+            this.recipes.put(r.id, r);
+          }
           rs.next();
         }
       }
@@ -160,28 +164,31 @@ public class DataManager {
   }
 
   public void loadEventsTasks() {
-    String query = "SELECT * FROM events e JOIN event_tasks et ON"
-    + "e.id = et.event JOIN tasks t ON et.task = t.id";
+    String query = "SELECT e.id as event_id, e.name as name, e.chef as chef, e.menu as menu, t.id as task_id, t.description as description, t.time as time, t.done as done, t.recipe as recipe "
+    + " FROM events e LEFT JOIN tasks t ON e.id = t.event";
     try {
       Statement st = this.connection.createStatement();
       ResultSet rs = st.executeQuery(query);
+      if (!rs.next()) return;
       while (!rs.isAfterLast()) {
         Event current = new Event();
-        current.id = rs.getInt("event");
+        current.id = rs.getInt("event_id");
         current.name = rs.getString("name");
         current.chef = this.users.get(rs.getInt("chef"));
         current.menu = this.menus.get(rs.getInt("menu"));
         this.events.put(current.id, current);
-        while (!rs.isAfterLast() && rs.getInt("event") == current.id) {
-          Task t = new Task();
-          t.id = rs.getInt("task");
-          t.event = current;
-          t.description = rs.getString("description");
-          t.done = rs.getBoolean("done");
-          t.time = rs.getInt("time");
-          t.recipe = this.recipes.get(rs.getInt("recipe"));
-          this.tasks.put(t.id, t);
-          current.tasks.add(t);
+        while (!rs.isAfterLast() && rs.getInt("event_id") == current.id) {
+          if (rs.getInt("task_id") != 0) {
+            Task t = new Task();
+            t.id = rs.getInt("task_id");
+            t.event = current;
+            t.description = rs.getString("description");
+            t.done = rs.getBoolean("done");
+            t.time = rs.getInt("time");
+            t.recipe = this.recipes.get(rs.getInt("recipe"));
+            this.tasks.put(t.id, t);
+            current.tasks.add(t);
+          }
           rs.next();
         }
       }
@@ -195,9 +202,9 @@ public class DataManager {
     String query = "SELECT id FROM events WHERE chef=?";
     Collection<Event> e = new ArrayList<>();
     try {
-      PreparedStatement st = this.connection.createStatement();
+      PreparedStatement st = this.connection.prepareStatement(query);
       st.setInt(1, chef.id);
-      ResultSet rs = st.executeQuery(query);
+      ResultSet rs = st.executeQuery();
       while (rs.next()) {
         e.add(this.events.get(rs.getInt("id")));
       }
@@ -212,9 +219,9 @@ public class DataManager {
     String query = "SELECT id FROM users WHERE name=?";
     User u = null;
     try {
-      PreparedStatement st = this.connection.createStatement();
+      PreparedStatement st = this.connection.prepareStatement(query);
       st.setString(1, name);
-      ResultSet rs = st.executeQuery(query);
+      ResultSet rs = st.executeQuery();
       if (!rs.next()) {
         return null;
       }
@@ -227,7 +234,7 @@ public class DataManager {
   }
 
   public void createTask(Task task) {
-    String sql = "INSERT INTO tasks(description,time,done,toPrepare,recipe,event) "
+    String sql = "INSERT INTO tasks(description,time,done,toPrepare,recipe,event)\n"
     + "VALUES (?,?,?,?,?,?)";
     try {
       PreparedStatement st = this.connection.prepareStatement(sql,
@@ -272,17 +279,17 @@ public class DataManager {
     String sql = "DELETE FROM tasks WHERE id=?";
     try {
       PreparedStatement st = this.connection.prepareStatement(sql);
-      st.setString(1, task.id);
+      st.setInt(1, task.id);
       st.executeUpdate();
       st.close();
-      this.tasks.remove(task.id)
+      this.tasks.remove(task.id);
     } catch (SQLException exc) {
       exc.printStackTrace();
     }
   }
 
   public void createAssignment(Assignment a) {
-    String sql = "INSERT INTO assignments(description,done,task,workshift) "
+    String sql = "INSERT INTO assignments(description,done,task,workshift)\n"
     + "VALUES (?,?,?,?)";
     try {
       PreparedStatement st = this.connection.prepareStatement(sql,
@@ -291,7 +298,7 @@ public class DataManager {
       st.setInt(2, a.done ? 1 : 0);
       st.setInt(3, a.task.id);
       st.setInt(4, a.workshift.id);
-      int r = st.executeUpdate(query);
+      int r = st.executeUpdate();
       if (r != 1) return;
       ResultSet rs = st.getGeneratedKeys();
       if (rs.next()) {
@@ -299,12 +306,12 @@ public class DataManager {
         this.assignments.put(a.id, a);
       }
       st.close();
-      sql = "INSERT INTO assignment_cooks(cook,assignment) \n"
+      sql = "INSERT INTO assignment_cooks(cook,assignment)\n"
       + "VALUES ";
-      for (int i = 0; i < a.cooks.size() - 1) {
+      for (int i = 0; i < a.cooks.size() - 1; i++) {
         sql += "(?,?),\n";
       }
-      sql += "(?,?);"
+      sql += "(?,?);";
       st = this.connection.prepareStatement(sql);
       int i = 1;
       for (User c : a.cooks) {
@@ -312,7 +319,7 @@ public class DataManager {
         st.setInt(i+1, a.id);
         i+=2;
       }
-      r = st.executeUpdate(query);
+      r = st.executeUpdate();
       st.close();
     } catch (SQLException exc) {
       exc.printStackTrace();
@@ -320,12 +327,12 @@ public class DataManager {
   }
 
   public void deleteAssignment(Assignment a) {
-    String sql = "DELETE FROM assignment_cooks WHERE assignment=?;"
+    String sql = "DELETE FROM assignment_cooks WHERE assignment=?;\n"
     + "DELETE FROM assignment WHERE id=?";
     try {
       PreparedStatement st = this.connection.prepareStatement(sql);
-      st.setString(1, a.id);
-      st.setString(2, a.id);
+      st.setInt(1, a.id);
+      st.setInt(2, a.id);
       st.executeUpdate();
       st.close();
       this.assignments.remove(a.id);

@@ -31,6 +31,7 @@ public class CateringAppManager {
         }
         CateringAppManager.userManager.initialize();
         CateringAppManager.taskManager.initialize();
+        
     }
 
 

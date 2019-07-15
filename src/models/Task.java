@@ -5,16 +5,18 @@ public class Task extends Model {
   public Event event;
   public String description;
   public boolean done;
+  public boolean toPrepare;
   public int time;
   public Recipe recipe;
 
   public Task() {}
 
-  public Task(Event e, String d, boolean d1, int t, Recipe r) {
+  public Task(Event e, String d, boolean d1, boolean t, int t1, Recipe r) {
     event = e;
     description = d;
     done = d1;
-    time = t;
+    toPrepare = t;
+    time = t1;
     recipe = r;
   }
 

@@ -15,12 +15,9 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-    	System.out.println("a");
       this.app = CateringAppManager.getInstance();
-      System.out.println("b");
       FXMLLoader mainLoader = new FXMLLoader(getClass().getResource("views/main.fxml"));
       Parent main = mainLoader.load();
-      System.out.println("b");
       Scene mainScene = new Scene(main);
       MainController mainController = mainLoader.getController();
       primaryStage.setScene(mainScene);
@@ -28,7 +25,6 @@ public class Main extends Application {
       primaryStage.setHeight(600);
       primaryStage.setMaximized(true);
       primaryStage.show();
-
     }
 
 

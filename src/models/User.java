@@ -2,8 +2,8 @@ package models;
 
 public class User extends Model {
 
-    private String name;
-    private String role;
+    public String name;
+    public String role;
 
     public User(String name, String role) {
         this.name = name;

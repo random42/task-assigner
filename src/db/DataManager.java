@@ -55,6 +55,23 @@ public class DataManager {
     events.clear();
   }
 
+  public void printData() {
+    System.out.println("\nUSERS\n");
+    System.out.println(users.values());
+    System.out.println("\nRECIPES\n");
+    System.out.println(recipes.values());
+    System.out.println("\nMENUS\n");
+    System.out.println(menus.values());
+    System.out.println("\nTASKS\n");
+    System.out.println(tasks.values());
+    System.out.println("\nASSIGNMENTS\n");
+    System.out.println(assignments.values());
+    System.out.println("\nWORKSHIFTS\n");
+    System.out.println(workshifts.values());
+    System.out.println("\nEVENTS\n");
+    System.out.println(events.values());
+  }
+
   public void loadData() {
     loadUsers();
     loadMenusRecipes();

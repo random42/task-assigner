@@ -20,4 +20,11 @@ public class Workshift extends Model {
     this.cooks = cooks;
   }
 
+  public String toString() {
+    String d = ", ";
+    return
+      "(" + super.toString() + d + from.toString() + d
+      + to.toString() + d + cooks.toString() + d + assignments.size() + ")";
+  }
+
 }

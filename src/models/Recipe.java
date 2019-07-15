@@ -9,7 +9,9 @@ public class Recipe extends Model {
     }
 
     public String toString() {
-        return this.name;
+      String d = ", ";
+      return
+        "(" + super.toString() + d + name + ")";
     }
 
 }

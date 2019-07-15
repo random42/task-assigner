@@ -20,4 +20,11 @@ public class Event extends Model {
     tasks = t;
   }
 
+  public String toString() {
+    String d = ", ";
+    return
+      "(" + super.toString() + d + name + d + chef.name + d + menu.title + d
+      + tasks.size() + ")";
+  }
+
 }

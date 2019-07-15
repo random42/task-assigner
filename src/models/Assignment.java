@@ -22,4 +22,11 @@ public class Assignment extends Model {
     cooks = c;
   }
 
+  public String toString() {
+    String d = ", ";
+    return
+      "(" + super.toString() + d + description + d + done + d + task.id + d
+      + workshift.id + d + cooks.toString() + ")";
+  }
+
 }

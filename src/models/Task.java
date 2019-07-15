@@ -24,4 +24,11 @@ public class Task extends Model {
     return done;
   }
 
+  public String toString() {
+    String d = ", ";
+    return
+      "(" + super.toString() + d + description + d + done + d + toPrepare + d
+      + time + d + recipe.id + d + event.id + ")";
+  }
+
 }

@@ -6,7 +6,7 @@ public class Assignment extends Model {
 
   public String description;
   public Task task;
-  public boolean done;
+  public Boolean done;
   public Workshift workshift;
   public Set<User> cooks;
 
@@ -14,10 +14,10 @@ public class Assignment extends Model {
     cooks = new HashSet<>();
   }
 
-  public Assignment(String d, Task t, boolean d1, Workshift w, Set<User> c) {
+  public Assignment(String d, Task t, Workshift w, Set<User> c) {
     description = d;
+    done = false;
     task = t;
-    done = d1;
     workshift = w;
     cooks = c;
   }

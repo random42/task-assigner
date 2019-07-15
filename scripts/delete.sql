@@ -1,0 +1,10 @@
+DELETE FROM menu_recipes;
+DELETE FROM assignment_cooks;
+DELETE FROM workshift_cooks;
+DELETE FROM assignments;
+DELETE FROM workshifts;
+DELETE FROM tasks;
+DELETE FROM events;
+DELETE FROM recipes;
+DELETE FROM menus;
+DELETE FROM users;

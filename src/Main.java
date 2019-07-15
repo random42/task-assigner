@@ -10,12 +10,9 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
-    private CateringAppManager app;
-
     @Override
     public void start(Stage primaryStage) throws Exception {
-
-      this.app = CateringAppManager.getInstance();
+      CateringAppManager.initialize();
       FXMLLoader mainLoader = new FXMLLoader(getClass().getResource("views/main.fxml"));
       Parent main = mainLoader.load();
       Scene mainScene = new Scene(main);

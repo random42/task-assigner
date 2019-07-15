@@ -1,12 +1,15 @@
 package db;
 
+import receivers.TaskEventReceiver;
 import models.*;
+import controllers.CateringAppManager;
 import java.sql.*;
 import java.util.*;
+import java.io.*;
 import com.mysql.cj.jdbc.Driver;
 
 
-public class DataManager {
+public class DataManager implements TaskEventReceiver {
   private String userName = "root";
   private String password = "ciaociao";
   private String serverName = "localhost";
@@ -14,35 +17,36 @@ public class DataManager {
 
   private Connection connection;
 
-  private Map<Integer,User> users = new HashMap<Integer,User>();
-  private Map<Integer,Recipe> recipes = new HashMap<Integer,Recipe>();
-  private Map<Integer,Menu> menus = new HashMap<Integer,Menu>();
-  private Map<Integer,Task> tasks = new HashMap<Integer,Task>();
-  private Map<Integer,Assignment> assignments = new HashMap<Integer,Assignment>();
-  private Map<Integer,Workshift> workshifts = new HashMap<Integer,Workshift>();
-  private Map<Integer,Event> events = new HashMap<Integer,Event>();
+  public Map<Integer,User> users = new HashMap<Integer,User>();
+  public Map<Integer,Recipe> recipes = new HashMap<Integer,Recipe>();
+  public Map<Integer,Menu> menus = new HashMap<Integer,Menu>();
+  public Map<Integer,Task> tasks = new HashMap<Integer,Task>();
+  public Map<Integer,Assignment> assignments = new HashMap<Integer,Assignment>();
+  public Map<Integer,Workshift> workshifts = new HashMap<Integer,Workshift>();
+  public Map<Integer,Event> events = new HashMap<Integer,Event>();
 
   public DataManager() {
   }
 
   public void initialize() throws SQLException {
-      Connection conn = null;
-      Properties connectionProps = new Properties();
-      connectionProps.put("user", this.userName);
-      connectionProps.put("password", this.password);
-      connectionProps.put("useUnicode", true);
-      connectionProps.put("useJDBCCompliantTimezoneShift", true);
-      connectionProps.put("useLegacyDatetimeCode", false);
-      connectionProps.put("serverTimezone", "UTC");
-      conn = DriverManager.getConnection(
-              "jdbc:mysql://" +
-                      this.serverName +
-                      ":" + this.portNumber + "/catering",
-              connectionProps);
+    Connection conn = null;
+    Properties connectionProps = new Properties();
+    connectionProps.put("user", this.userName);
+    connectionProps.put("password", this.password);
+    connectionProps.put("useUnicode", true);
+    connectionProps.put("useJDBCCompliantTimezoneShift", true);
+    connectionProps.put("useLegacyDatetimeCode", false);
+    connectionProps.put("serverTimezone", "UTC");
+    conn = DriverManager.getConnection(
+            "jdbc:mysql://" +
+                    this.serverName +
+                    ":" + this.portNumber + "/catering",
+            connectionProps);
 
-      System.out.println("Connected to database");
-      this.connection = conn;
-      loadData();
+    System.out.println("Connected to database");
+    this.connection = conn;
+    CateringAppManager.taskManager.addReceiver(this);
+    loadData();
   }
 
   public void clearMaps() {
@@ -232,6 +236,36 @@ public class DataManager {
     return e;
   }
 
+  public void resetDb() {
+    String[] files = {"scripts/delete.sql","scripts/test_data.sql"};
+    String sql = readFilesAsString(files);
+    try {
+      Statement st = this.connection.createStatement();
+      st.executeUpdate(sql);
+      st.close();
+    } catch (SQLException exc) {
+      exc.printStackTrace();
+    }
+  }
+
+  private String readFilesAsString(String[] files) {
+    StringBuilder sb = new StringBuilder();
+    for (String file : files) {
+      Scanner s;
+      try {
+        s = new Scanner(new File(file));
+      } catch (FileNotFoundException ex) {
+        ex.printStackTrace();
+        return null;
+      }
+      while(s.hasNextLine()){
+         sb.append(s.nextLine()).append("\n");
+      }
+      s.close();
+    }
+    return sb.toString();
+  }
+
   public User getUser(String name) {
     String query = "SELECT id FROM users WHERE name=?";
     User u = null;
@@ -250,17 +284,17 @@ public class DataManager {
     return u;
   }
 
-  public void createTask(Task task) {
+  public void notifyTaskCreated(Task task) {
     String sql = "INSERT INTO tasks(description,time,done,toPrepare,recipe,event)\n"
     + "VALUES (?,?,?,?,?,?)";
     try {
       PreparedStatement st = this.connection.prepareStatement(sql,
         Statement.RETURN_GENERATED_KEYS);
       st.setString(1, task.description);
-      st.setInt(2, task.time);
+      st.setInt(2, task.time != null ? task.time : null);
       st.setInt(3, task.done ? 1 : 0);
       st.setInt(4, task.toPrepare ? 1 : 0);
-      st.setInt(5, task.recipe.id);
+      st.setInt(5, task.recipe != null ? task.recipe.id : null);
       st.setInt(6, task.event.id);
       int r = st.executeUpdate();
       if (r != 1) return;
@@ -275,7 +309,7 @@ public class DataManager {
     }
   }
 
-  public void updateTask(Task task) {
+  public void notifyTaskEdited(Task task) {
     String sql = "UPDATE tasks SET description=? time=? done=? toPrepare=? recipe=? WHERE id=?";
     try {
       PreparedStatement st = this.connection.prepareStatement(sql);
@@ -283,7 +317,7 @@ public class DataManager {
       st.setInt(2, task.time);
       st.setInt(3, task.done ? 1 : 0);
       st.setInt(4, task.toPrepare ? 1 : 0);
-      st.setInt(5, task.recipe.id);
+      st.setInt(5, task.recipe != null ? task.recipe.id : null);
       st.setInt(6, task.id);
       st.executeUpdate();
       st.close();
@@ -292,7 +326,7 @@ public class DataManager {
     }
   }
 
-  public void deleteTask(Task task) {
+  public void notifyTaskDeleted(Task task) {
     String sql = "DELETE FROM tasks WHERE id=?";
     try {
       PreparedStatement st = this.connection.prepareStatement(sql);
@@ -305,7 +339,7 @@ public class DataManager {
     }
   }
 
-  public void createAssignment(Assignment a) {
+  public void notifyTaskAssigned(Assignment a) {
     String sql = "INSERT INTO assignments(description,done,task,workshift)\n"
     + "VALUES (?,?,?,?)";
     try {
@@ -343,7 +377,7 @@ public class DataManager {
     }
   }
 
-  public void deleteAssignment(Assignment a) {
+  public void notifyAssignmentDeleted(Assignment a) {
     String sql = "DELETE FROM assignment_cooks WHERE assignment=?;\n"
     + "DELETE FROM assignment WHERE id=?";
     try {

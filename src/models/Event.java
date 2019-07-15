@@ -7,9 +7,13 @@ public class Event extends Model {
   public String name;
   public User chef;
   public Menu menu;
-  public ArrayList<Task> tasks;
+  public Collection<Task> tasks;
 
-  public Event(String n, User c, Menu m, ArrayList<Task> t) {
+  public Event() {
+    tasks = new ArrayList<>();
+  }
+
+  public Event(String n, User c, Menu m, Collection<Task> t) {
     name = n;
     chef = c;
     menu = m;

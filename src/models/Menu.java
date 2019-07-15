@@ -5,9 +5,13 @@ import java.util.*;
 public class Menu extends Model {
 
   public String title;
-  public ArrayList<Recipe> recipes;
+  public Collection<Recipe> recipes;
 
-  public Menu(String t, ArrayList<Recipe> r) {
+  public Menu() {
+    recipes = new ArrayList<>();
+  }
+
+  public Menu(String t, Collection<Recipe> r) {
     title = t;
     recipes = r;
   }

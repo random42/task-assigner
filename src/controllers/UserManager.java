@@ -7,7 +7,7 @@ public class UserManager {
     private User currentUser;
 
     public void initialize() {
-        currentUser = CateringAppManager.dataManager.loadUser("Tony");
+        currentUser = CateringAppManager.dataManager.getUser("Tony");
     }
 
 

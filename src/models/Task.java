@@ -8,6 +8,8 @@ public class Task extends Model {
   public int time;
   public Recipe recipe;
 
+  public Task() {}
+
   public Task(Event e, String d, boolean d1, int t, Recipe r) {
     event = e;
     description = d;

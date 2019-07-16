@@ -59,6 +59,14 @@ public class DataManager implements TaskEventReceiver {
     events.clear();
   }
 
+  public void printTasks() {
+    System.out.println(tasks.values());
+  }
+
+  public void printAssignments() {
+    System.out.println(assignments.values());
+  }
+
   public void printData() {
     System.out.println("\nUSERS\n");
     System.out.println(users.values());
@@ -185,7 +193,7 @@ public class DataManager implements TaskEventReceiver {
   }
 
   public void loadEventsTasks() {
-    String query = "SELECT e.id as event_id, e.name as name, e.chef as chef, e.menu as menu, t.id as task_id, t.description as description, t.time as time, t.done as done, t.recipe as recipe "
+    String query = "SELECT e.id as event_id, e.name as name, e.chef as chef, e.menu as menu, t.id as task_id, t.description as description, t.time as time, t.done as done, t.recipe as recipe, t.toPrepare as toPrepare "
     + " FROM events e LEFT JOIN tasks t ON e.id = t.event";
     try {
       Statement st = this.connection.createStatement();
@@ -205,6 +213,7 @@ public class DataManager implements TaskEventReceiver {
             t.event = current;
             t.description = rs.getString("description");
             t.done = rs.getBoolean("done");
+            t.toPrepare = rs.getBoolean("toPrepare");
             t.time = rs.getInt("time");
             t.recipe = this.recipes.get(rs.getInt("recipe"));
             this.tasks.put(t.id, t);
@@ -219,9 +228,9 @@ public class DataManager implements TaskEventReceiver {
     }
   }
 
-  public Collection<Event> getEvents(User chef) {
+  public List<Event> getEvents(User chef) {
     String query = "SELECT id FROM events WHERE chef=?";
-    Collection<Event> e = new ArrayList<>();
+    List<Event> e = new ArrayList<>();
     try {
       PreparedStatement st = this.connection.prepareStatement(query);
       st.setInt(1, chef.id);
@@ -310,7 +319,7 @@ public class DataManager implements TaskEventReceiver {
   }
 
   public void notifyTaskEdited(Task task) {
-    String sql = "UPDATE tasks SET description=? time=? done=? toPrepare=? recipe=? WHERE id=?";
+    String sql = "UPDATE tasks SET description=?, time=?, done=?, toPrepare=?, recipe=? WHERE id=?";
     try {
       PreparedStatement st = this.connection.prepareStatement(sql);
       st.setString(1, task.description);
@@ -378,12 +387,15 @@ public class DataManager implements TaskEventReceiver {
   }
 
   public void notifyAssignmentDeleted(Assignment a) {
-    String sql = "DELETE FROM assignment_cooks WHERE assignment=?;\n"
-    + "DELETE FROM assignment WHERE id=?";
+    String sql1 = "DELETE FROM assignment_cooks WHERE assignment=?";
+    String sql2 = "DELETE FROM assignments WHERE id=?";
     try {
-      PreparedStatement st = this.connection.prepareStatement(sql);
+      PreparedStatement st = this.connection.prepareStatement(sql1);
       st.setInt(1, a.id);
-      st.setInt(2, a.id);
+      st.executeUpdate();
+      st.close();
+      st = this.connection.prepareStatement(sql2);
+      st.setInt(1, a.id);
       st.executeUpdate();
       st.close();
       this.assignments.remove(a.id);

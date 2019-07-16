@@ -14,6 +14,10 @@ public class TaskManager {
   public TaskManager() {}
 
   public void chooseEvent(Event e) {
+    User u = CateringAppManager.userManager.getCurrentUser();
+    if (u != e.chef) {
+      throw new UseCaseLogicException("User must be the event's chef.");
+    }
     currentEvent = e;
   }
 
@@ -45,10 +49,11 @@ public class TaskManager {
     if (currentTask == null) {
       throw new UseCaseLogicException("Choose task before editing it.");
     }
-    currentTask.description = description;
-    currentTask.toPrepare = toPrepare;
-    currentTask.recipe = recipe;
-    currentTask.time = time;
+    Task t = currentTask;
+    t.description = description != null ? description : t.description;
+    t.toPrepare = toPrepare != null ? toPrepare : t.toPrepare;
+    t.recipe = recipe != null ? recipe : t.recipe;
+    t.time = time != null ? time : t.time;
     for (TaskEventReceiver r : receivers) {
       r.notifyTaskEdited(currentTask);
     }

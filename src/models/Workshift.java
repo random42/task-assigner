@@ -7,7 +7,7 @@ public class Workshift extends Model {
   public Date from;
   public Date to;
   public Set<User> cooks;
-  public Collection<Assignment> assignments;
+  public List<Assignment> assignments;
 
   public Workshift() {
     cooks = new HashSet<>();

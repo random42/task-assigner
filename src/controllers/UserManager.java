@@ -4,14 +4,14 @@ import models.User;
 
 public class UserManager {
 
-    private User currentUser;
+  private User currentUser;
 
-    public void initialize() {
-        currentUser = CateringAppManager.dataManager.getUser("Tony");
-    }
+  public void initialize() {
+    currentUser = CateringAppManager.dataManager.getUser("Tony");
+  }
 
 
-    public User getCurrentUser() {
-        return currentUser;
-    }
+  public User getCurrentUser() {
+    return currentUser;
+  }
 }

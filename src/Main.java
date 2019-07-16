@@ -15,13 +15,13 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
       CateringAppManager.initialize();
       Workshift w = CateringAppManager.dataManager.workshifts.get(1);
+      Event e = CateringAppManager.dataManager.events.get(1);
       CateringAppManager.taskManager.chooseWorkshift(w);
+      CateringAppManager.taskManager.chooseEvent(e);
       FXMLLoader mainLoader = new FXMLLoader(getClass().getResource("views/main.fxml"));
       Parent main = mainLoader.load();
       Scene mainScene = new Scene(main);
       primaryStage.setScene(mainScene);
-      primaryStage.setWidth(918);
-      primaryStage.setHeight(635);
       primaryStage.setMaximized(true);
       primaryStage.show();
     }

@@ -12,8 +12,6 @@ import java.io.IOException;
 
 public class ModalAssController {
 
-  ObservableList<User> oCooks;
-
   @FXML
   private ListView<User> cooks;
 
@@ -27,8 +25,8 @@ public class ModalAssController {
   @FXML
   public void initialize() {
     cooks.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-    oCooks = FXCollections.observableList(CateringAppManager.taskManager.getCurrentWorkshift().cooks);
-    cooks.setItems(oCooks);
+    ObservableList<User> c = FXCollections.observableList(CateringAppManager.taskManager.getCurrentWorkshift().cooks);
+    cooks.setItems(c);
   }
 
   @FXML

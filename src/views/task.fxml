@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane fx:controller="views.TaskController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="337.0" prefWidth="320.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Button fx:id="action" layoutX="88.0" layoutY="283.0" mnemonicParsing="false" onAction="#action" text="Crea" />
+      <Label layoutX="31.0" layoutY="6.0" text="Descrizione" />
+      <TextField fx:id="description" layoutX="31.0" layoutY="31.0" prefHeight="39.0" prefWidth="220.0" />
+      <CheckBox fx:id="toPrepare" layoutX="132.0" layoutY="97.0" mnemonicParsing="false" />
+      <Label layoutX="34.0" layoutY="97.0" text="Da preparare" />
+      <Label layoutX="31.0" layoutY="153.0" text="Ricetta" />
+      <ChoiceBox fx:id="recipe" layoutX="112.0" layoutY="148.0" prefWidth="150.0" />
+      <Label layoutX="37.0" layoutY="218.0" text="Tempo stimato" />
+      <TextField fx:id="time" layoutX="146.0" layoutY="213.0" prefHeight="17.0" prefWidth="59.0" />
+      <Label layoutX="221.0" layoutY="218.0" text="min" />
+      <Button fx:id="cancel" layoutX="187.0" layoutY="283.0" mnemonicParsing="false" onAction="#cancel" text="Annulla" />
+   </children>
+</AnchorPane>

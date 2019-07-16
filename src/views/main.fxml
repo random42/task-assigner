@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<Pane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.MainController">
    <children>
       <SplitPane dividerPositions="0.2725752508361204, 0.5" layoutY="35.0" minHeight="-Infinity" prefHeight="600.0">
          <items>
@@ -19,11 +19,11 @@
                         <Font size="24.0" />
                      </font>
                   </Label>
-                  <Button fx:id="delete" layoutX="130.0" layoutY="548.0" mnemonicParsing="false" text="Elimina" />
-                  <Button fx:id="edit" layoutX="96.0" layoutY="494.0" mnemonicParsing="false" text="Modifica" />
-                  <Button fx:id="assign" layoutX="8.0" layoutY="494.0" mnemonicParsing="false" text="Assegna" />
+                  <Button fx:id="delete" layoutX="130.0" layoutY="548.0" mnemonicParsing="false" onAction="#deleteTask" text="Elimina" />
+                  <Button fx:id="edit" layoutX="96.0" layoutY="494.0" mnemonicParsing="false" onAction="#editTask" text="Modifica" />
+                  <Button fx:id="assign" layoutX="8.0" layoutY="494.0" mnemonicParsing="false" onAction="#assignTask" text="Assegna" />
                   <ListView fx:id="tasks" layoutX="-90.0" layoutY="70.0" prefHeight="598.0" prefWidth="270.0" AnchorPane.bottomAnchor="140.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="60.0" />
-                  <Button fx:id="create" layoutX="182.0" layoutY="494.0" mnemonicParsing="false" text="Crea" />
+                  <Button fx:id="create" layoutX="182.0" layoutY="494.0" mnemonicParsing="false" onAction="#createTask" text="Crea" />
                </children>
             </AnchorPane>
             <AnchorPane maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefHeight="598.0" prefWidth="300.0" SplitPane.resizableWithParent="false">
@@ -44,7 +44,7 @@
                      </font>
                   </Label>
                   <ListView fx:id="assignments" layoutX="79.0" layoutY="107.0" prefHeight="598.0" prefWidth="300.0" AnchorPane.bottomAnchor="140.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="60.0" />
-                  <Button fx:id="deleteAss" layoutX="130.0" layoutY="489.0" mnemonicParsing="false" text="Elimina" />
+                  <Button fx:id="deleteAss" layoutX="130.0" layoutY="489.0" mnemonicParsing="false" onAction="#deleteAssignment" text="Elimina" />
                </children>
             </AnchorPane>
          </items>

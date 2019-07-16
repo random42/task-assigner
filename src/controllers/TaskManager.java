@@ -75,10 +75,10 @@ public class TaskManager {
       throw new UseCaseLogicException("Choose task before editing it.");
     }
     Task t = currentTask;
-    t.description = description != null ? description : t.description;
-    t.toPrepare = toPrepare != null ? toPrepare : t.toPrepare;
-    t.recipe = recipe != null ? recipe : t.recipe;
-    t.time = time != null ? time : t.time;
+    t.description = description;
+    t.toPrepare = toPrepare;
+    t.recipe = recipe;
+    t.time = time;
     for (TaskEventReceiver r : receivers) {
       r.notifyTaskEdited(currentTask);
     }

@@ -304,10 +304,10 @@ public class DataManager implements TaskEventReceiver {
       PreparedStatement st = this.connection.prepareStatement(sql,
         Statement.RETURN_GENERATED_KEYS);
       st.setString(1, task.description);
-      st.setInt(2, task.time != null ? task.time : null);
+      st.setInt(2, task.time != null ? task.time : 0);
       st.setInt(3, task.done ? 1 : 0);
       st.setInt(4, task.toPrepare ? 1 : 0);
-      st.setInt(5, task.recipe != null ? task.recipe.id : null);
+      st.setInt(5, task.recipe != null ? task.recipe.id : 0);
       st.setInt(6, task.event.id);
       int r = st.executeUpdate();
       if (r != 1) return;

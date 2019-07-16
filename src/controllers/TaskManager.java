@@ -13,6 +13,31 @@ public class TaskManager {
 
   public TaskManager() {}
 
+  public List<Workshift> getWorkshifts() {
+    return CateringAppManager.dataManager.getWorkshifts();
+  }
+
+  public List<Event> getEvents() {
+    User chef = CateringAppManager.userManager.getCurrentUser();
+    return CateringAppManager.dataManager.getEvents(chef);
+  }
+
+  public Workshift getCurrentWorkshift() {
+    return currentWorkshift;
+  }
+
+  public Task getCurrentTask() {
+    return currentTask;
+  }
+
+  public Assignment getCurrentAssignment() {
+    return currentAssignment;
+  }
+
+  public Event getCurrentEvent() {
+    return currentEvent;
+  }
+
   public void chooseEvent(Event e) {
     User u = CateringAppManager.userManager.getCurrentUser();
     if (u != e.chef) {
@@ -69,7 +94,7 @@ public class TaskManager {
     currentTask = null;
   }
 
-  public Assignment assignTask(String description, Set<User> cooks) {
+  public Assignment assignTask(String description, List<User> cooks) {
     if (currentTask == null || currentWorkshift == null) {
       throw new UseCaseLogicException("Choose task and workshift before creating an assignment.");
     }

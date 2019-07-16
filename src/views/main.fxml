@@ -1,16 +1,71 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.FlowPane?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<BorderPane fx:id="mainPane" prefHeight="400.0" prefWidth="600.0" style="-fx-border-width: 5 5 5 5; -fx-border-color: transparent;" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.MainController">
-   <top>
-      <FlowPane hgap="5.0" style="-fx-border-color: aaaaaa; -fx-border-width: 0 0 2 0;" BorderPane.alignment="CENTER">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="927.0" prefWidth="1331.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <center>
+      <AnchorPane prefHeight="781.0" prefWidth="628.0" BorderPane.alignment="CENTER">
          <children>
-            <Label text="Utente attuale:" />
-            <Label fx:id="userName" text="Username" />
+            <ListView fx:id="workshifts" layoutY="51.0" prefHeight="767.0" prefWidth="594.0" />
+            <Label layoutX="8.0" layoutY="4.0" prefHeight="52.0" prefWidth="308.0" text="Turni:">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
          </children>
-      </FlowPane>
+      </AnchorPane>
+   </center>
+   <left>
+      <AnchorPane prefHeight="885.0" prefWidth="212.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="create" layoutX="4.0" layoutY="742.0" mnemonicParsing="false" onAction="#createTask" text="Nuovo" />
+            <Button fx:id="delete" layoutX="171.0" layoutY="742.0" mnemonicParsing="false" onAction="#deleteTask" text="Cancella" />
+            <Button fx:id="edit" layoutX="82.0" layoutY="742.0" mnemonicParsing="false" onAction="#editTask" text="Modifica" />
+            <Button fx:id="assign" layoutX="69.0" layoutY="831.0" mnemonicParsing="false" onAction="#assignTask" text="Assegna il compito" />
+            <Accordion layoutX="1.0" prefHeight="739.0" prefWidth="250.0">
+               <panes>
+                  <TitledPane fx:id="taskDesc1" animated="false" prefHeight="739.0" prefWidth="235.0" text="Compiti/Ricette">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <ListView fx:id="tasks" layoutX="2.0" prefHeight="705.0" prefWidth="256.0" />
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </TitledPane>
+               </panes>
+            </Accordion>
+         </children>
+      </AnchorPane>
+   </left>
+   <right>
+      <AnchorPane prefHeight="885.0" prefWidth="486.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="deleteComp" layoutX="205.0" layoutY="827.0" mnemonicParsing="false" text="Cancella" />
+            <VBox fx:id="riepilogo" prefHeight="815.0" prefWidth="482.0">
+               <children>
+                  <TextField prefHeight="57.0" prefWidth="408.0" text="Riepilogo compiti assegnati:">
+                     <font>
+                        <Font size="27.0" />
+                     </font>
+                  </TextField>
+                  <ListView fx:id="assignments" prefHeight="759.0" prefWidth="482.0" />
+               </children>
+            </VBox>
+         </children>
+      </AnchorPane>
+   </right>
+   <top>
+      <TitledPane fx:id="userName" animated="false" prefHeight="42.0" prefWidth="1350.0" text="Utente attuale:" BorderPane.alignment="CENTER">
+         <content>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+         </content>
+         <font>
+            <Font size="19.0" />
+         </font>
+      </TitledPane>
    </top>
 </BorderPane>

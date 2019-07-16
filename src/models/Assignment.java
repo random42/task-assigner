@@ -8,13 +8,13 @@ public class Assignment extends Model {
   public Task task;
   public Boolean done;
   public Workshift workshift;
-  public Set<User> cooks;
+  public List<User> cooks;
 
   public Assignment() {
-    cooks = new HashSet<>();
+    cooks = new ArrayList<>();
   }
 
-  public Assignment(String d, Task t, Workshift w, Set<User> c) {
+  public Assignment(String d, Task t, Workshift w, List<User> c) {
     description = d;
     done = false;
     task = t;

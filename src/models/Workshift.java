@@ -6,15 +6,15 @@ public class Workshift extends Model {
 
   public Date from;
   public Date to;
-  public Set<User> cooks;
+  public List<User> cooks;
   public List<Assignment> assignments;
 
   public Workshift() {
-    cooks = new HashSet<>();
+    cooks = new ArrayList<>();
     assignments = new ArrayList<>();
   }
 
-  public Workshift(Date from, Date to, Set<User> cooks) {
+  public Workshift(Date from, Date to, List<User> cooks) {
     this.from = from;
     this.to = to;
     this.cooks = cooks;

@@ -12,15 +12,41 @@ import java.io.IOException;
 
 public class MainController {
 
-    @FXML
-    private BorderPane mainPane;
+  @FXML
+  private Button create;
 
-    @FXML
-    private Label userName;
+  @FXML
+  private Button delete;
 
-    @FXML
-    public void initialize() {
-      String name = CateringAppManager.userManager.getCurrentUser().toString();
-      userName.setText(name);
-    }
+  @FXML
+  private Button edit;
+
+  @FXML
+  private Button assign;
+
+  @FXML
+  private Button deleteAss;
+
+  @FXML
+  private ListView tasks;
+
+  @FXML
+  private ListView assignments;
+
+  @FXML
+  private ListView workshifts;
+
+  @FXML
+  public void initialize() {
+    tasks.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+    workshifts.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+    assignments.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+    ObservableList t = FXCollections.observableList(CateringAppManager.taskManager.getCurrentEvent().tasks);
+    ObservableList w = FXCollections.observableList(CateringAppManager.taskManager.getWorkshifts());
+    tasks.setItems(t);
+    workshifts.setItems(w);
+  }
+
+
+
 }

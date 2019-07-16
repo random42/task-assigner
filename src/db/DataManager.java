@@ -228,6 +228,10 @@ public class DataManager implements TaskEventReceiver {
     }
   }
 
+  public List<Workshift> getWorkshifts() {
+    return new ArrayList<Workshift>(workshifts.values());
+  }
+
   public List<Event> getEvents(User chef) {
     String query = "SELECT id FROM events WHERE chef=?";
     List<Event> e = new ArrayList<>();

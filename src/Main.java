@@ -16,12 +16,12 @@ public class Main extends Application {
       CateringAppManager.initialize();
       Workshift w = CateringAppManager.dataManager.workshifts.get(1);
       CateringAppManager.taskManager.chooseWorkshift(w);
-      FXMLLoader mainLoader = new FXMLLoader(getClass().getResource("views/modalass.fxml"));
+      FXMLLoader mainLoader = new FXMLLoader(getClass().getResource("views/main.fxml"));
       Parent main = mainLoader.load();
       Scene mainScene = new Scene(main);
       primaryStage.setScene(mainScene);
-      primaryStage.setWidth(800);
-      primaryStage.setHeight(600);
+      primaryStage.setWidth(918);
+      primaryStage.setHeight(635);
       primaryStage.setMaximized(true);
       primaryStage.show();
     }

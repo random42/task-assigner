@@ -1,16 +1,19 @@
 package views;
 
 import controllers.CateringAppManager;
-import models.User;
+import models.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.control.Label;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.control.*;
 
 import java.io.IOException;
 
 public class MainController {
+
+  @FXML
+  private Label userName;
 
   @FXML
   private Button create;
@@ -28,21 +31,21 @@ public class MainController {
   private Button deleteAss;
 
   @FXML
-  private ListView tasks;
+  private ListView<Task> tasks;
 
   @FXML
-  private ListView assignments;
+  private ListView<Assignment> assignments;
 
   @FXML
-  private ListView workshifts;
+  private ListView<Workshift> workshifts;
 
   @FXML
   public void initialize() {
     tasks.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
     workshifts.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
     assignments.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-    ObservableList t = FXCollections.observableList(CateringAppManager.taskManager.getCurrentEvent().tasks);
-    ObservableList w = FXCollections.observableList(CateringAppManager.taskManager.getWorkshifts());
+    ObservableList<Task> t = FXCollections.observableList(CateringAppManager.taskManager.getCurrentEvent().tasks);
+    ObservableList<Workshift> w = FXCollections.observableList(CateringAppManager.taskManager.getWorkshifts());
     tasks.setItems(t);
     workshifts.setItems(w);
   }

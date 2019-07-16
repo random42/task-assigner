@@ -1,71 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="927.0" prefWidth="1331.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
-   <center>
-      <AnchorPane prefHeight="781.0" prefWidth="628.0" BorderPane.alignment="CENTER">
-         <children>
-            <ListView fx:id="workshifts" layoutY="51.0" prefHeight="767.0" prefWidth="594.0" />
-            <Label layoutX="8.0" layoutY="4.0" prefHeight="52.0" prefWidth="308.0" text="Turni:">
-               <font>
-                  <Font size="24.0" />
-               </font>
-            </Label>
-         </children>
-      </AnchorPane>
-   </center>
-   <left>
-      <AnchorPane prefHeight="885.0" prefWidth="212.0" BorderPane.alignment="CENTER">
-         <children>
-            <Button fx:id="create" layoutX="4.0" layoutY="742.0" mnemonicParsing="false" onAction="#createTask" text="Nuovo" />
-            <Button fx:id="delete" layoutX="171.0" layoutY="742.0" mnemonicParsing="false" onAction="#deleteTask" text="Cancella" />
-            <Button fx:id="edit" layoutX="82.0" layoutY="742.0" mnemonicParsing="false" onAction="#editTask" text="Modifica" />
-            <Button fx:id="assign" layoutX="69.0" layoutY="831.0" mnemonicParsing="false" onAction="#assignTask" text="Assegna il compito" />
-            <Accordion layoutX="1.0" prefHeight="739.0" prefWidth="250.0">
-               <panes>
-                  <TitledPane fx:id="taskDesc1" animated="false" prefHeight="739.0" prefWidth="235.0" text="Compiti/Ricette">
-                     <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                           <children>
-                              <ListView fx:id="tasks" layoutX="2.0" prefHeight="705.0" prefWidth="256.0" />
-                           </children>
-                        </AnchorPane>
-                     </content>
-                  </TitledPane>
-               </panes>
-            </Accordion>
-         </children>
-      </AnchorPane>
-   </left>
-   <right>
-      <AnchorPane prefHeight="885.0" prefWidth="486.0" BorderPane.alignment="CENTER">
-         <children>
-            <Button fx:id="deleteComp" layoutX="205.0" layoutY="827.0" mnemonicParsing="false" text="Cancella" />
-            <VBox fx:id="riepilogo" prefHeight="815.0" prefWidth="482.0">
+<Pane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <SplitPane dividerPositions="0.2725752508361204, 0.5" layoutY="35.0" minHeight="-Infinity" prefHeight="600.0">
+         <items>
+            <AnchorPane maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefHeight="598.0" prefWidth="300.0">
                <children>
-                  <TextField prefHeight="57.0" prefWidth="408.0" text="Riepilogo compiti assegnati:">
+                  <Label prefHeight="57.0" prefWidth="109.0" text="Compiti" AnchorPane.leftAnchor="20.0">
                      <font>
-                        <Font size="27.0" />
+                        <Font size="24.0" />
                      </font>
-                  </TextField>
-                  <ListView fx:id="assignments" prefHeight="759.0" prefWidth="482.0" />
+                  </Label>
+                  <Button fx:id="delete" layoutX="130.0" layoutY="548.0" mnemonicParsing="false" text="Elimina" />
+                  <Button fx:id="edit" layoutX="96.0" layoutY="494.0" mnemonicParsing="false" text="Modifica" />
+                  <Button fx:id="assign" layoutX="8.0" layoutY="494.0" mnemonicParsing="false" text="Assegna" />
+                  <ListView fx:id="tasks" layoutX="-90.0" layoutY="70.0" prefHeight="598.0" prefWidth="270.0" AnchorPane.bottomAnchor="140.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="60.0" />
+                  <Button fx:id="create" layoutX="182.0" layoutY="494.0" mnemonicParsing="false" text="Crea" />
                </children>
-            </VBox>
-         </children>
-      </AnchorPane>
-   </right>
-   <top>
-      <TitledPane fx:id="userName" animated="false" prefHeight="42.0" prefWidth="1350.0" text="Utente attuale:" BorderPane.alignment="CENTER">
-         <content>
-            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-         </content>
+            </AnchorPane>
+            <AnchorPane maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefHeight="598.0" prefWidth="300.0" SplitPane.resizableWithParent="false">
+               <children>
+                  <Label prefHeight="57.0" prefWidth="109.0" text="Turni">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+                  <ListView fx:id="workshifts" layoutX="-17.0" prefHeight="334.0" prefWidth="165.0" AnchorPane.bottomAnchor="140.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="60.0" />
+               </children>
+            </AnchorPane>
+            <AnchorPane maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefHeight="598.0" prefWidth="300.0" SplitPane.resizableWithParent="false">
+               <children>
+                  <Label layoutX="12.0" layoutY="-4.0" prefHeight="57.0" prefWidth="326.0" text="Assegnamenti del turno">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+                  <ListView fx:id="assignments" layoutX="79.0" layoutY="107.0" prefHeight="598.0" prefWidth="300.0" AnchorPane.bottomAnchor="140.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="60.0" />
+                  <Button fx:id="deleteAss" layoutX="130.0" layoutY="489.0" mnemonicParsing="false" text="Elimina" />
+               </children>
+            </AnchorPane>
+         </items>
+      </SplitPane>
+      <Label fx:id="userName" layoutX="29.0" layoutY="4.0" prefHeight="28.0" prefWidth="258.0">
          <font>
-            <Font size="19.0" />
+            <Font size="16.0" />
          </font>
-      </TitledPane>
-   </top>
-</BorderPane>
+      </Label>
+   </children>
+</Pane>

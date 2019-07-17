@@ -27,7 +27,7 @@ public class Task extends Model {
   public String toString() {
     String d = ", ";
     return
-      "Descrizione: "+ description + d + "Terminato: " + done + d + "Da preparare: " + toPrepare + d
+      "Descrizione: "+ description + d + "Terminato: " + (done ? "si" : "no") + d + "Da preparare: " + toPrepare + d
       + "Tempo stimato: " + time + " min" + d + "Ricetta: " + (recipe != null ? recipe.name : "Nessuna");
   }
 

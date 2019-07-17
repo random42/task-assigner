@@ -17,9 +17,7 @@ public class Menu extends Model {
   }
 
   public String toString() {
-    String d = ", ";
-    return
-      "(" + super.toString() + d + title + d + recipes.size() + ")";
+    return title;
   }
 
 }

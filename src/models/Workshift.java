@@ -1,11 +1,12 @@
 package models;
 
 import java.util.*;
+import java.sql.Timestamp;
 
 public class Workshift extends Model {
 
-  public Date from;
-  public Date to;
+  public Timestamp from;
+  public Timestamp to;
   public List<User> cooks;
   public List<Assignment> assignments;
 
@@ -14,17 +15,23 @@ public class Workshift extends Model {
     assignments = new ArrayList<>();
   }
 
-  public Workshift(Date from, Date to, List<User> cooks) {
+  public Workshift(Timestamp from, Timestamp to, List<User> cooks) {
     this.from = from;
     this.to = to;
     this.cooks = cooks;
   }
+  
+  public static String time(Timestamp t) {
+	  return t.toString().substring(11,16);
+  }
+  
+  public static String date(Timestamp t) {
+	  return t.toString().substring(0,10);
+  }
+ 
 
   public String toString() {
-    String d = ", ";
     return
-      "(" + super.toString() + d + from.toString() + d
-      + to.toString() + d + cooks.toString() + d + assignments.size() + ")";
+      date(from) + " da: " + time(from) + " a: " + time(to) + " Cuochi: " + cooks.toString();
   }
-
 }

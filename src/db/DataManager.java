@@ -120,8 +120,8 @@ public class DataManager implements TaskEventReceiver {
         Workshift current = new Workshift();
         int id = rs.getInt("workshift");
         current.id = id;
-        current.from = rs.getDate("from_date");
-        current.to = rs.getDate("to_date");
+        current.from = rs.getTimestamp("from_date");
+        current.to = rs.getTimestamp("to_date");
         this.workshifts.put(id, current);
         while (!rs.isAfterLast() && rs.getInt("workshift") == id) {
           int c = rs.getInt("cook");
@@ -342,7 +342,7 @@ public class DataManager implements TaskEventReceiver {
     try {
       PreparedStatement st = this.connection.prepareStatement(sql);
       st.setString(1, task.description);
-      st.setInt(2, task.time);
+      st.setInt(2, task.time != null ? task.time : 0);
       st.setInt(3, task.done ? 1 : 0);
       st.setInt(4, task.toPrepare ? 1 : 0);
       st.setInt(5, task.recipe != null ? task.recipe.id : 0);

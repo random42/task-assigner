@@ -19,8 +19,6 @@ public class User extends Model {
     }
 
     public String toString() {
-      String d = ", ";
-      return
-        "(" + super.toString() + d + name + ")";
+      return name;
     }
 }

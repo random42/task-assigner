@@ -21,10 +21,7 @@ public class Event extends Model {
   }
 
   public String toString() {
-    String d = ", ";
-    return
-      "(" + super.toString() + d + name + d + chef.name + d + menu.title + d
-      + tasks.size() + ")";
+    return name;
   }
 
 }

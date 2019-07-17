@@ -14,7 +14,6 @@ public class Test {
     Task t = tm.createTask("Daje", true, recipes.get(0), 120);
     Workshift w = dm.workshifts.get(1);
     tm.chooseTask(t);
-    tm.editTask("EDDAJE",null,null,null);
     tm.chooseWorkshift(w);
     Assignment a = tm.assignTask("fate tutto", w.cooks);
     dm.printTasks();

@@ -25,8 +25,8 @@ public class Assignment extends Model {
   public String toString() {
     String d = ", ";
     return
-      "(" + super.toString() + d + description + d + done + d + task.id + d
-      + workshift.id + d + cooks.toString() + ")";
+    	"Descrizione: "+ description + d + "Terminato: " + (done ? "si" : "no") + d + 
+    	"Cuochi: " + cooks.toString();
   }
 
 }

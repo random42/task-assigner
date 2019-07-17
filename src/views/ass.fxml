@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="320.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.AssController">
+   <children>
+      <Button fx:id="action" layoutX="39.0" layoutY="251.0" mnemonicParsing="false" onAction="#action" text="Assegna" />
+      <Label layoutX="32.0" layoutY="14.0" text="Descrizione" />
+      <TextField fx:id="description" layoutX="29.0" layoutY="46.0" prefHeight="39.0" prefWidth="220.0" />
+      <Label layoutX="29.0" layoutY="124.0" text="Cuochi" />
+      <Button fx:id="cancel" layoutX="187.0" layoutY="251.0" mnemonicParsing="false" onAction="#cancel" text="Annulla" />
+      <ListView fx:id="cooks" layoutX="110.0" layoutY="108.0" prefHeight="118.0" prefWidth="169.0" />
+   </children>
+</AnchorPane>

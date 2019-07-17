@@ -13,12 +13,17 @@ import java.io.IOException;
 
 public class TaskController {
 
-  public static enum Type {CREATE,EDIT};
+  private Task task;
 
-  private Type type;
-
-  public void setType(Type t) {
-    type = t;
+  public void setTask(Task t) {
+	  task = t;
+	  description.setText(t.description);
+      toPrepare.setSelected(t.toPrepare);
+      if (t.time != null) {
+        time.setText(Integer.toString(t.time));
+      }
+      recipe.getSelectionModel().select(t.recipe);
+      action.setText("Salva");
   }
 
   @FXML
@@ -45,16 +50,6 @@ public class TaskController {
     ObservableList<Recipe> r = FXCollections.observableList(CateringAppManager.taskManager.getCurrentEvent().menu.recipes);
     r.add(0, null);
     recipe.setItems(r);
-    Task t = CateringAppManager.taskManager.getCurrentTask();
-    if (this.type == Type.EDIT) {
-      description.setText(t.description);
-      toPrepare.setSelected(t.toPrepare);
-      if (t.time != null) {
-        time.setText(Integer.toString(t.time));
-      }
-      recipe.getSelectionModel().select(t.recipe);
-      action.setText("Salva");
-    }
   }
 
   @FXML
@@ -62,7 +57,8 @@ public class TaskController {
     Recipe r = recipe.getSelectionModel().getSelectedItem();
     String desc = description.getText();
     Boolean tp = toPrepare.isSelected();
-    Integer t = null;
+    Integer t = 0;
+    boolean checkFields = desc.length() > 0 && r != null;
     if (time.getText().trim().length() > 0) {
       try {
         t = Integer.valueOf(time.getText().trim());
@@ -71,13 +67,17 @@ public class TaskController {
         return;
       }
     }
-    if (this.type == Type.CREATE)
-      CateringAppManager.taskManager.createTask(desc, tp, r, t);
-    else
-      CateringAppManager.taskManager.editTask(desc, tp, r, t);
-
-    Stage stage = (Stage) action.getScene().getWindow();
-    stage.close();
+    if (!checkFields)
+    	return;
+    if (this.task == null) {
+    	CateringAppManager.taskManager.createTask(desc, tp, r, t);
+    }
+      
+    else {
+    	CateringAppManager.taskManager.editTask(desc, tp, r, t);
+    }
+      
+    cancel();
   }
 
   @FXML

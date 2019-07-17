@@ -296,6 +296,21 @@ public class DataManager implements TaskEventReceiver {
     }
     return u;
   }
+  
+  public boolean isTaskAssigned(Task t) {
+    String query = "SELECT id FROM assignments WHERE task=?";
+    try {
+      PreparedStatement st = this.connection.prepareStatement(query);
+      st.setInt(1, t.id);
+      ResultSet rs = st.executeQuery();
+      if (!rs.next()) {
+        return false;
+      } else return true;
+    } catch (SQLException exc) {
+      exc.printStackTrace();
+    }
+    return true;
+  }
 
   public void notifyTaskCreated(Task task) {
     String sql = "INSERT INTO tasks(description,time,done,toPrepare,recipe,event)\n"
@@ -330,7 +345,7 @@ public class DataManager implements TaskEventReceiver {
       st.setInt(2, task.time);
       st.setInt(3, task.done ? 1 : 0);
       st.setInt(4, task.toPrepare ? 1 : 0);
-      st.setInt(5, task.recipe != null ? task.recipe.id : null);
+      st.setInt(5, task.recipe != null ? task.recipe.id : 0);
       st.setInt(6, task.id);
       st.executeUpdate();
       st.close();

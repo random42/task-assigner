@@ -63,7 +63,7 @@ public class TaskManager {
       throw new UseCaseLogicException("Creating task with no event chosen.");
     }
     Task t = new Task(currentEvent, description, toPrepare, recipe, time);
-    currentTask = t;
+    currentEvent.tasks.add(t);
     for (TaskEventReceiver r : receivers) {
       r.notifyTaskCreated(t);
     }
@@ -82,12 +82,20 @@ public class TaskManager {
     for (TaskEventReceiver r : receivers) {
       r.notifyTaskEdited(currentTask);
     }
+    currentTask = null;
+  }
+  
+  public boolean canTaskBeDeleted() {
+	  if (currentTask == null) return false;
+	  else
+		  return !CateringAppManager.dataManager.isTaskAssigned(currentTask);
   }
 
   public void deleteTask() {
     if (currentTask == null) {
       throw new UseCaseLogicException("Choose task before deleting it.");
     }
+    currentEvent.tasks.remove(currentTask);
     for (TaskEventReceiver r : receivers) {
       r.notifyTaskDeleted(currentTask);
     }
@@ -99,7 +107,7 @@ public class TaskManager {
       throw new UseCaseLogicException("Choose task and workshift before creating an assignment.");
     }
     Assignment a = new Assignment(description, currentTask, currentWorkshift, cooks);
-    currentAssignment = a;
+    currentWorkshift.assignments.add(a);
     for (TaskEventReceiver r : receivers) {
       r.notifyTaskAssigned(a);
     }
@@ -110,6 +118,7 @@ public class TaskManager {
     if (currentAssignment == null) {
       throw new UseCaseLogicException("Choose assignment before deleting it.");
     }
+    currentWorkshift.assignments.remove(currentAssignment);
     for (TaskEventReceiver r : receivers) {
       r.notifyAssignmentDeleted(currentAssignment);
     }

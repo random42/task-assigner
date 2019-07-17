@@ -79,8 +79,8 @@ CREATE TABLE `tasks`
  `description` varchar(200) NOT NULL ,
  `time`        int NOT NULL ,
  `done`        tinyint NOT NULL DEFAULT 0,
- `toPrepare`   tinyint NOT NULL DEFAULT 0 ,
- `recipe`      int NOT NULL ,
+ `toPrepare`   tinyint NOT NULL DEFAULT 0,
+ `recipe`      int,
  `event`       int NOT NULL ,
 
 PRIMARY KEY (`id`),

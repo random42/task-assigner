@@ -15,7 +15,7 @@ public class Test {
     Workshift w = dm.workshifts.get(1);
     tm.chooseTask(t);
     tm.chooseWorkshift(w);
-    Assignment a = tm.assignTask("fate tutto", w.cooks);
+    TaskAssignment a = tm.assignTask("fate tutto", w.cooks);
     dm.printTasks();
     dm.printAssignments();
     tm.chooseAssignment(a);

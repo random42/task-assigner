@@ -37,7 +37,7 @@ public class MainController {
   private ListView<Task> tasks;
 
   @FXML
-  private ListView<Assignment> assignments;
+  private ListView<TaskAssignment> assignments;
 
   @FXML
   private ListView<Workshift> workshifts;
@@ -80,7 +80,7 @@ public class MainController {
     });
     
     assignments.getSelectionModel().selectedIndexProperty().addListener((observable) -> {
-    	Assignment a = assignments.getSelectionModel().getSelectedItem();
+    	TaskAssignment a = assignments.getSelectionModel().getSelectedItem();
     	CateringAppManager.taskManager.chooseAssignment(a);
     	deleteAss.setDisable(false);
     });
@@ -100,7 +100,7 @@ public class MainController {
   @FXML
   private void refreshAssignments() {
 	  Workshift w = CateringAppManager.taskManager.getCurrentWorkshift();
-	  ObservableList<Assignment> a = FXCollections.observableList(w == null ? new ArrayList<>() : w.assignments);
+	  ObservableList<TaskAssignment> a = FXCollections.observableList(w == null ? new ArrayList<>() : w.assignments);
 	  assignments.setItems(a);
 	  assignments.getSelectionModel().clearSelection();
 	  boolean del = CateringAppManager.taskManager.canTaskBeDeleted();

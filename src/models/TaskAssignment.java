@@ -2,7 +2,7 @@ package models;
 
 import java.util.*;
 
-public class Assignment extends Model {
+public class TaskAssignment extends Model {
 
   public String description;
   public Task task;
@@ -10,11 +10,11 @@ public class Assignment extends Model {
   public Workshift workshift;
   public List<User> cooks;
 
-  public Assignment() {
+  public TaskAssignment() {
     cooks = new ArrayList<>();
   }
 
-  public Assignment(String d, Task t, Workshift w, List<User> c) {
+  public TaskAssignment(String d, Task t, Workshift w, List<User> c) {
     description = d;
     done = false;
     task = t;
@@ -25,7 +25,7 @@ public class Assignment extends Model {
   public String toString() {
     String d = ", ";
     return
-    	"Descrizione: "+ description + d + "Terminato: " + (done ? "si" : "no") + d + 
+    	"Descrizione: "+ description + d + "Terminato: " + (done ? "si" : "no") + d +
     	"Cuochi: " + cooks.toString();
   }
 

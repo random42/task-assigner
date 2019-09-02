@@ -21,7 +21,7 @@ public class DataManager implements TaskEventReceiver {
   public Map<Integer,Recipe> recipes = new HashMap<Integer,Recipe>();
   public Map<Integer,Menu> menus = new HashMap<Integer,Menu>();
   public Map<Integer,Task> tasks = new HashMap<Integer,Task>();
-  public Map<Integer,Assignment> assignments = new HashMap<Integer,Assignment>();
+  public Map<Integer,TaskAssignment> assignments = new HashMap<Integer,TaskAssignment>();
   public Map<Integer,Workshift> workshifts = new HashMap<Integer,Workshift>();
   public Map<Integer,Event> events = new HashMap<Integer,Event>();
 
@@ -144,7 +144,7 @@ public class DataManager implements TaskEventReceiver {
       ResultSet rs = st.executeQuery(query);
       if (!rs.next()) return;
       while (!rs.isAfterLast()) {
-        Assignment current = new Assignment();
+        TaskAssignment current = new TaskAssignment();
         current.id = rs.getInt("id");
         current.description = rs.getString("description");
         current.task = this.tasks.get(rs.getInt("task"));
@@ -367,7 +367,7 @@ public class DataManager implements TaskEventReceiver {
     }
   }
 
-  public void notifyTaskAssigned(Assignment a) {
+  public void notifyTaskAssigned(TaskAssignment a) {
     String sql = "INSERT INTO assignments(description,done,task,workshift)\n"
     + "VALUES (?,?,?,?)";
     try {
@@ -405,7 +405,7 @@ public class DataManager implements TaskEventReceiver {
     }
   }
 
-  public void notifyAssignmentDeleted(Assignment a) {
+  public void notifyAssignmentDeleted(TaskAssignment a) {
     String sql1 = "DELETE FROM assignment_cooks WHERE assignment=?";
     String sql2 = "DELETE FROM assignments WHERE id=?";
     try {

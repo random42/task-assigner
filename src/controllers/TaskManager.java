@@ -9,7 +9,7 @@ public class TaskManager {
   private Task currentTask;
   private Event currentEvent;
   private Workshift currentWorkshift;
-  private Assignment currentAssignment;
+  private TaskAssignment currentAssignment;
 
   public TaskManager() {}
 
@@ -30,7 +30,7 @@ public class TaskManager {
     return currentTask;
   }
 
-  public Assignment getCurrentAssignment() {
+  public TaskAssignment getCurrentAssignment() {
     return currentAssignment;
   }
 
@@ -54,7 +54,7 @@ public class TaskManager {
     currentWorkshift = w;
   }
 
-  public void chooseAssignment(Assignment a) {
+  public void chooseAssignment(TaskAssignment a) {
     currentAssignment = a;
   }
 
@@ -102,11 +102,11 @@ public class TaskManager {
     currentTask = null;
   }
 
-  public Assignment assignTask(String description, List<User> cooks) {
+  public TaskAssignment assignTask(String description, List<User> cooks) {
     if (currentTask == null || currentWorkshift == null) {
       throw new UseCaseLogicException("Choose task and workshift before creating an assignment.");
     }
-    Assignment a = new Assignment(description, currentTask, currentWorkshift, cooks);
+    TaskAssignment a = new TaskAssignment(description, currentTask, currentWorkshift, cooks);
     currentWorkshift.assignments.add(a);
     for (TaskEventReceiver r : receivers) {
       r.notifyTaskAssigned(a);

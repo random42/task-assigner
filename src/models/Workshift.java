@@ -8,7 +8,7 @@ public class Workshift extends Model {
   public Timestamp from;
   public Timestamp to;
   public List<User> cooks;
-  public List<Assignment> assignments;
+  public List<TaskAssignment> assignments;
 
   public Workshift() {
     cooks = new ArrayList<>();
